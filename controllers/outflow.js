@@ -1,4 +1,4 @@
-class Entrance {
+class Outflow {
 
   constructor(value, account, user, date, scheduling){
     this._value = value;
@@ -32,6 +32,7 @@ class Entrance {
   set Value( value ){
     this._value = value;
   }
+
   set Account ( Account ){
     this._account = Account;
   }
@@ -49,4 +50,4 @@ class Entrance {
   }
 }
 
-module.exports = Entrance;
+module.exports = Outflow;
