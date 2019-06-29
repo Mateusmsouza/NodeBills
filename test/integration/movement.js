@@ -16,8 +16,12 @@ describe("Route /createMovement", ()=>{
       scheduling : ""
     }
     request.post('/createEntrance').send(Entrance).end( (req, res) => {
-      expect((res.body)).to.equal((Entrance));
-
+      const object = res.body;
+      expect(object._value).to.equal(Entrance.value) &&
+      expect(object._account).to.equal(Entrance.account) &&
+      expect(object._user).to.equal(Entrance.user) && 
+      expect(object._date).to.equal(Entrance.date) && 
+      expect(object._scheduling).to.equal(Entrance.scheduling);
     } )
   });
 
