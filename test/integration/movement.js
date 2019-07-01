@@ -46,4 +46,48 @@ describe("Route GET /Entrance", ()=> {
       expect(object.scheduling).to.equal(Entrance.scheduling);
     });
   });
-})
+});
+
+describe("Route POST /Outflow", () => {
+
+  it("Should create a movement (Outflow)", ()=>{
+    const Outflow = {
+      value: 199,
+      account: "85742-9",
+      user: "Mateus",
+      date : "05/05/1999",
+      scheduling : ""
+    }
+    request.post('/Outflow').send(Outflow).end( (req, res) => {
+      const object = res.body;
+      expect(object.value).to.equal(Outflow.value) &&
+      expect(object.account).to.equal(Outflow.account) &&
+      expect(object.user).to.equal(Outflow.user) && 
+      expect(object.date).to.equal(Outflow.date) && 
+      expect(object.scheduling).to.equal(Outflow.scheduling);
+    } )
+  });
+
+});
+
+describe("Route GET /Outflow", ()=> {
+  it("Should get a movement (Outflow)", () => {
+    const Outflow = {
+      value: 199,
+      account: "85742-9",
+      user: "Mateus",
+      date : "05/05/1999",
+      scheduling : ""
+    }
+    request.get('/Outflow').send(Outflow).end( (req, res) => {
+      const object = res.body;
+      console.log("log abaixo:");
+      console.log(object);
+      expect(object.value).to.equal(Outflow.value) &&
+      expect(object.account).to.equal(Outflow.account) &&
+      expect(object.user).to.equal(Outflow.user) && 
+      expect(object.date).to.equal(Outflow.date) && 
+      expect(object.scheduling).to.equal(Outflow.scheduling);
+    });
+  });
+});
