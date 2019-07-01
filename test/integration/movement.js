@@ -4,7 +4,7 @@ const app = require('../../app');
 
 const request = supertest(app);
 
-describe("Route /createMovement", ()=>{
+describe("Route POST /Entrance", ()=>{
 
   it("Should create a movement (Entrance)", ()=>{
     const Entrance = {
@@ -15,13 +15,13 @@ describe("Route /createMovement", ()=>{
       date : "05/05/1999",
       scheduling : ""
     }
-    request.post('/createEntrance').send(Entrance).end( (req, res) => {
+    request.post('/Entrance').send(Entrance).end( (req, res) => {
       const object = res.body;
-      expect(object._value).to.equal(Entrance.value) &&
-      expect(object._account).to.equal(Entrance.account) &&
-      expect(object._user).to.equal(Entrance.user) && 
-      expect(object._date).to.equal(Entrance.date) && 
-      expect(object._scheduling).to.equal(Entrance.scheduling);
+      expect(object.value).to.equal(Entrance.value) &&
+      expect(object.account).to.equal(Entrance.account) &&
+      expect(object.user).to.equal(Entrance.user) && 
+      expect(object.date).to.equal(Entrance.date) && 
+      expect(object.scheduling).to.equal(Entrance.scheduling);
     } )
   });
 

@@ -10,12 +10,15 @@ app.set("port", 3001);
 app.use(bodyParser.json());
 
 const sequelizeInstance = new Sequelize( sequelizeConf.config );
-require('./models/ENTRANCE')(sequelizeInstance, Sequelize)
+const tableEntrance =  require('./models/ENTRANCE')(sequelizeInstance, Sequelize);
+
+
+
+
+movement(app, tableEntrance);
 
 sequelizeInstance.sync()
   .then(() => {
-    console.log("Entrance synchronized");
+    console.log("Database synchronized");
   })
-
-movement(app);
 module.exports = app;

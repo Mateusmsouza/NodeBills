@@ -1,51 +1,51 @@
 class Entrance {
 
   constructor(value, account, user, date, scheduling){
-    this._value = value;
-    this._account = account;
-    this._user = user;
-    this._date = date;
-    this._scheduling = scheduling;
+    this.value = value;
+    this.account = account;
+    this.user = user;
+    this.date = date;
+    this.scheduling = scheduling;
 
   }
 
   get Value(){
-    return this._value;
+    return this.value;
   }
 
   get Account(){
-    return this._account;
+    return this.account;
   }
 
   get User(){
-    return this._user;
+    return this.user;
   }
 
   get Date(){
-    return this._date;
+    return this.date;
   }
 
   get Scheduling(){
-    return this._scheduling;
+    return this.scheduling;
   }
 
   set Value( value ){
-    this._value = value;
+    this.value = value;
   }
   set Account ( Account ){
-    this._account = Account;
+    this.account = Account;
   }
 
   set User ( User ){
-    this._user = User;
+    this.user = User;
   }
 
   set Date ( Date ){
-    this._date = Date;
+    this.date = Date;
   }
 
   set Scheduling ( Scheduling ){
-    this._scheduling = Scheduling;
+    this.scheduling = Scheduling;
   }
 }
 
