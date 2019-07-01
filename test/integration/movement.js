@@ -8,7 +8,6 @@ describe("Route POST /Entrance", ()=>{
 
   it("Should create a movement (Entrance)", ()=>{
     const Entrance = {
-      //value, account, user, date, scheduling
       value: 199,
       account: "85742-9",
       user: "Mateus",
@@ -26,3 +25,25 @@ describe("Route POST /Entrance", ()=>{
   });
 
 });
+
+describe("Route GET /Entrance", ()=> {
+  it("Should get a movement (Entrance)", () => {
+    const Entrance = {
+      value: 199,
+      account: "85742-9",
+      user: "Mateus",
+      date : "05/05/1999",
+      scheduling : ""
+    }
+    request.get('/Entrance').send(Entrance).end( (req, res) => {
+      const object = res.body;
+      console.log("log abaixo:");
+      console.log(object);
+      expect(object.value).to.equal(Entrance.value) &&
+      expect(object.account).to.equal(Entrance.account) &&
+      expect(object.user).to.equal(Entrance.user) && 
+      expect(object.date).to.equal(Entrance.date) && 
+      expect(object.scheduling).to.equal(Entrance.scheduling);
+    });
+  });
+})
