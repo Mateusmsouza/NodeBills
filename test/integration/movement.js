@@ -4,6 +4,11 @@ const app = require('../../app');
 
 const request = supertest(app);
 
+beforeEach( () => {
+  app.get("datasourceEntrance").destroy({where: {}, truncate:true});
+  app.get("datasourceOutflow").destroy({where: {}, truncate:true});
+});
+
 describe("Route POST /Entrance", ()=>{
 
   it("Should create a movement (Entrance)", ()=>{
@@ -14,6 +19,7 @@ describe("Route POST /Entrance", ()=>{
       date : "05/05/1999",
       scheduling : ""
     }
+    console.log(Entrance);
     request.post('/Entrance').send(Entrance).end( (req, res) => {
       const object = res.body;
       expect(object.value).to.equal(Entrance.value) &&

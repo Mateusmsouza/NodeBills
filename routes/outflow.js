@@ -1,13 +1,13 @@
-const Entrance = require('../controllers/entrance');
+const Outflow = require('../controllers/outflow');
 
-module.exports = (App, sequelize) => {
+module.exports = (App) => {
 
   App.post('/Outflow', (req, res)=> {
-    const entrance = new Entrance(req.body.value, req.body.account, req.body.user, req.body.date, req.body.scheduling);
+    const outflow = new Outflow(App.get("datasourceOutflow"), req.body.value, req.body.account, req.body.user, req.body.date, req.body.scheduling);
     
-    sequelize.create(entrance)
-      .then(entrance => {
-        res.status(200).json(entrance).send();
+    outflow.commitToDatabase()
+      .then(outflow => {
+        res.status(200).json(outflow).send();
       })
       .catch(error => {
         res.status(404).send();
@@ -16,21 +16,13 @@ module.exports = (App, sequelize) => {
   });
 
   App.get('/Outflow', (req, res) => {
-    sequelize.findAll( {
-      where: {
-        value: req.body.value,
-        account: req.body.account,
-        user: req.body.user
-        } 
-      }
-      )
-      .then(entrance => {
-        console.log(entrance);
-        res.status(200).json(entrance).send();
+    const controller = new Outflow(App.get("datasourceOutflow"));
+
+    controller.findAllParam(req.body.value, req.body.account, req.body.user)
+      .then(outflow => {
+        res.status(200).json(outflow).send();
       })
       .catch((error)=>{
-        console.log("erro:");
-        console.log(error);
         res.status(404).send();
       })
     
