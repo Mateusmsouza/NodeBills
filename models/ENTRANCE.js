@@ -1,6 +1,6 @@
 module.exports = (sequelize, Datatype) => {
   
-  return sequelize.define('ENTRANCE', {
+  return sequelize.define('ENTRANCES', {
     value: {
       type: Datatype.DOUBLE,
       allowNull: false

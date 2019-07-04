@@ -19,7 +19,6 @@ describe("Route POST /Entrance", ()=>{
       date : "05/05/1999",
       scheduling : ""
     }
-    console.log(Entrance);
     request.post('/Entrance').send(Entrance).end( (req, res) => {
       const object = res.body;
       expect(object.value).to.equal(Entrance.value) &&
@@ -43,8 +42,6 @@ describe("Route GET /Entrance", ()=> {
     }
     request.get('/Entrance').send(Entrance).end( (req, res) => {
       const object = res.body;
-      console.log("log abaixo:");
-      console.log(object);
       expect(object.value).to.equal(Entrance.value) &&
       expect(object.account).to.equal(Entrance.account) &&
       expect(object.user).to.equal(Entrance.user) && 
@@ -87,8 +84,6 @@ describe("Route GET /Outflow", ()=> {
     }
     request.get('/Outflow').send(Outflow).end( (req, res) => {
       const object = res.body;
-      console.log("log abaixo:");
-      console.log(object);
       expect(object.value).to.equal(Outflow.value) &&
       expect(object.account).to.equal(Outflow.account) &&
       expect(object.user).to.equal(Outflow.user) && 

@@ -2,9 +2,9 @@ module.exports = (sequelize, Datatype) => {
   
   return sequelize.define('USERS', {
     id: {
-      type: Datatype.DOUBLE,
-      autoIncrement: true,
-      primaryKey: true
+      type: Datatype.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
     },
     user: {
       type: Datatype.STRING,
