@@ -22,6 +22,14 @@ class User {
       }
     )
   }
+  
+  findById(id){
+    return this.databaseAccess.findOne({
+      where : {
+        id: id
+      }
+    })
+  }
 }
 
 module.exports = User;

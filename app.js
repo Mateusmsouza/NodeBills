@@ -4,6 +4,7 @@ const Sequelize = require('sequelize');
 const movement = require('./routes/entrance');
 const outflow = require('./routes/outflow');
 const user = require('./routes/user');
+const auth = require('./routes/auth');
 const sequelizeConf = require('./config/databaseconf');
 
 
@@ -24,6 +25,7 @@ app.set("datasourceUser", tableUser);
 movement(app);
 outflow(app);
 user(app);
+auth(app);
 
 sequelizeInstance.sync()
   .then(() => {
