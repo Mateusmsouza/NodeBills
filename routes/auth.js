@@ -15,7 +15,7 @@ module.exports = (app) => {
         if (user.password == req.body.password) { 
           res.json(
             {
-              token: jwt.encode( {id: user.id} , "notebills"),
+              token: jwt.encode( {id: user.id} , "nodebills"),
             }
           );
         } else res.sendStatus(401); 

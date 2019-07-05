@@ -1,12 +1,24 @@
 const supertest = require('supertest');
 const expect = require('chai').expect;
 const app = require('../../app');
+const jwt = require('jwt-simple');
 
 const request = supertest(app);
+let token;
 
 beforeEach( () => {
   app.get("datasourceEntrance").destroy({where: {}, truncate:true});
   app.get("datasourceOutflow").destroy({where: {}, truncate:true});
+  app.get("datasourceUser").destroy({where : {}, truncate: true});
+  
+  app.get("datasourceUser").create(
+    {
+      user: "mateusm",
+      name: "Mateus Souza",
+      password: "umasenha"
+    }
+  ).then( user => { console.log("a poorra do user") })
+  .catch( error => { console.log(error) }) 
 });
 
 describe("Route POST /Entrance", ()=>{
@@ -19,7 +31,7 @@ describe("Route POST /Entrance", ()=>{
       date : "05/05/1999",
       scheduling : ""
     }
-    request.post('/Entrance').send(Entrance).end( (req, res) => {
+    request.post('/Entrance').set('Authorization', `JWT ${token}`).send(Entrance).end( (req, res) => {
       const object = res.body;
       expect(object.value).to.equal(Entrance.value) &&
       expect(object.account).to.equal(Entrance.account) &&
@@ -40,7 +52,7 @@ describe("Route GET /Entrance", ()=> {
       date : "05/05/1999",
       scheduling : ""
     }
-    request.get('/Entrance').send(Entrance).end( (req, res) => {
+    request.get('/Entrance').set('Authorization', `JWT ${token}`).send(Entrance).end( (req, res) => {
       const object = res.body;
       expect(object.value).to.equal(Entrance.value) &&
       expect(object.account).to.equal(Entrance.account) &&
@@ -61,7 +73,7 @@ describe("Route POST /Outflow", () => {
       date : "05/05/1999",
       scheduling : ""
     }
-    request.post('/Outflow').send(Outflow).end( (req, res) => {
+    request.post('/Outflow').set('Authorization', `JWT ${token}`).send(Outflow).end( (req, res) => {
       const object = res.body;
       expect(object.value).to.equal(Outflow.value) &&
       expect(object.account).to.equal(Outflow.account) &&
@@ -82,7 +94,7 @@ describe("Route GET /Outflow", ()=> {
       date : "05/05/1999",
       scheduling : ""
     }
-    request.get('/Outflow').send(Outflow).end( (req, res) => {
+    request.get('/Outflow').set('Authorization', `JWT ${token}`).send(Outflow).end( (req, res) => {
       const object = res.body;
       expect(object.value).to.equal(Outflow.value) &&
       expect(object.account).to.equal(Outflow.account) &&
