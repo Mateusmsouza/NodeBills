@@ -1,6 +1,8 @@
 const express = require('express');
+const expressejsLayout = require('express-ejs-layouts');
 const bodyParser = require ('body-parser');
 const Sequelize = require('sequelize');
+const homeHouter = require('./routes/home');
 const entranceRouter = require('./routes/entrance');
 const outflowRouter  = require('./routes/outflow');
 const userRouter  = require('./routes/user');
@@ -13,7 +15,9 @@ const sequelizeConf = require('./config/databaseconf');
 
 
 const app = express();
-app.set( "port", 3001 );
+app.set( "port", process.env.port || 3001 );
+app.set('view engine', 'ejs');
+app.use(expressejsLayout);
 app.use( bodyParser.json() );
 
 /* passportjs middleware  */ 
@@ -35,6 +39,7 @@ app.set("datasourceUser", tableUser);
 entranceRouter(app);
 outflowRouter(app);
 userRouter(app);
+homeHouter(app);
 //authRouter(app);
 
 /* sync database */
