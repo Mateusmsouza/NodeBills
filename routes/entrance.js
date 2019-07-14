@@ -3,7 +3,7 @@ const Entrance = require('../controllers/entrance');
 module.exports = (App) => {
 
   App.route('/Entrance')
-      .all(App.get("auth").authenticate())
+      //.all(App.get("auth").authenticate())
       .post((req, res )=>{
         const entrance = new Entrance(App.get("datasourceEntrance"), req.body.value, req.body.account, req.body.user, req.body.date, req.body.scheduling);
 

@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyParser = require ('body-parser');
 const Sequelize = require('sequelize');
-const movement = require('./routes/entrance');
-const outflow = require('./routes/outflow');
-const user = require('./routes/user');
-const authRouter = require('./routes/auth');
-const authorization = require('./auth');
+const entranceRouter = require('./routes/entrance');
+const outflowRouter  = require('./routes/outflow');
+const userRouter  = require('./routes/user');
+//const authRouter = require('./routes/auth');
+const entranceModel = require('./models/ENTRANCE');
+const outflowModel = require('./models/OUTFLOW');
+const userModel = require('./models/USERS');
+//const authorization = require('./auth');
 const sequelizeConf = require('./config/databaseconf');
 
 
@@ -14,24 +17,25 @@ app.set( "port", 3001 );
 app.use( bodyParser.json() );
 
 /* passportjs middleware  */ 
-const auth = authorization(app);
-app.use( auth.initialize() );
-app.set("auth", auth);
+// const auth = authorization(app);
+// app.use( auth.initialize() );
+// app.set("auth", auth);
 
 /*database init and setting these database instances to app*/
-const sequelizeInstance = new Sequelize( sequelizeConf.config );
-const tableEntrance =  require('./models/ENTRANCE')(sequelizeInstance, Sequelize);
-const tableOutflow =  require('./models/OUTFLOW')(sequelizeInstance, Sequelize);
-const tableUser = require('./models/USERS')(sequelizeInstance, Sequelize);
+const sequelizeInstance = new Sequelize( sequelizeConf.config, {logging: console.log} );
+
+const tableEntrance =  entranceModel(sequelizeInstance, Sequelize);
+const tableOutflow =  outflowModel(sequelizeInstance, Sequelize);
+const tableUser = userModel(sequelizeInstance, Sequelize);
 app.set("datasourceEntrance", tableEntrance);
 app.set("datasourceOutflow", tableOutflow);
 app.set("datasourceUser", tableUser);
 
 /* Routes initialize */
-movement(app);
-outflow(app);
-user(app);
-authRouter(app);
+entranceRouter(app);
+outflowRouter(app);
+userRouter(app);
+//authRouter(app);
 
 /* sync database */
 sequelizeInstance.sync()
@@ -41,4 +45,5 @@ sequelizeInstance.sync()
   .catch((error) => { 
     console.log("Database sync failed!\n" + error);
   }); 
+
 module.exports = app;

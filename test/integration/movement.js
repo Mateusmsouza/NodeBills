@@ -3,104 +3,128 @@ const expect = require('chai').expect;
 const app = require('../../app');
 const jwt = require('jwt-simple');
 
-const request = supertest(app);
-let token;
 
-beforeEach( () => {
-  app.get("datasourceEntrance").destroy({where: {}, truncate:true});
-  app.get("datasourceOutflow").destroy({where: {}, truncate:true});
-  app.get("datasourceUser").destroy({where : {}, truncate: true});
-  
-  app.get("datasourceUser").create(
-    {
-      user: "mateusm",
-      name: "Mateus Souza",
-      password: "umasenha"
-    }
-  ).then( user => { console.log("a poorra do user") })
-  .catch( error => { console.log(error) }) 
-});
 
-describe("Route POST /Entrance", ()=>{
+describe("Routes moviments." , () => {
 
-  it("Should create a movement (Entrance)", ()=>{
-    const Entrance = {
-      value: 199,
-      account: "85742-9",
-      user: "Mateus",
-      date : "05/05/1999",
-      scheduling : ""
-    }
-    request.post('/Entrance').set('Authorization', `JWT ${token}`).send(Entrance).end( (req, res) => {
-      const object = res.body;
-      expect(object.value).to.equal(Entrance.value) &&
-      expect(object.account).to.equal(Entrance.account) &&
-      expect(object.user).to.equal(Entrance.user) && 
-      expect(object.date).to.equal(Entrance.date) && 
-      expect(object.scheduling).to.equal(Entrance.scheduling);
-    } )
+  const request = supertest(app);
+  let token;
+    
+  before( done => {  
+    const Users = app.get("datasourceUser");
+    const Entrance = app.get("datasourceEntrance");
+    const Outflow = app.get("datasourceOutflow")
+
+    Outflow.destroy({where: {}, truncate: true})
+      .then( () => {
+          Entrance.destroy({where: {}, truncate: true})
+            .then( () => { 
+              Users.destroy({where: {}, truncate: true})
+                .then( () => {
+                  Users.create ({
+                          user: 'mateussouza',
+                          name: 'Mateus Souza',
+                          password: '12345',
+                      })
+                      .then( () => {
+                        done();
+                      })
+                      .catch( error => { console.log( error ) } )
+                } )
+                .catch( error => { console.log( error ) } )
+            }
+              )
+            .catch( error => { console.log( error ) } )
+      } )
+      .catch( error => { console.log( error )})
+
   });
 
-});
+  describe("Route POST /Entrance", ()=>{
 
-describe("Route GET /Entrance", ()=> {
-  it("Should get a movement (Entrance)", () => {
-    const Entrance = {
-      value: 199,
-      account: "85742-9",
-      user: "Mateus",
-      date : "05/05/1999",
-      scheduling : ""
-    }
-    request.get('/Entrance').set('Authorization', `JWT ${token}`).send(Entrance).end( (req, res) => {
-      const object = res.body;
-      expect(object.value).to.equal(Entrance.value) &&
-      expect(object.account).to.equal(Entrance.account) &&
-      expect(object.user).to.equal(Entrance.user) && 
-      expect(object.date).to.equal(Entrance.date) && 
-      expect(object.scheduling).to.equal(Entrance.scheduling);
+    it("Should create a movement (Entrance)", ()=>{
+      const Entrance = {
+        value: 199,
+        account: "85742-9",
+        user: "Mateus",
+        date : "1999-05-05T03:00:00.000Z",
+        scheduling : ""
+      }
+      request.post('/Entrance').send(Entrance).end( (req, res) => {
+        const object = res.body;
+        console.log(res.status)
+        expect(object.value).to.equal(Entrance.value) &&
+        expect(object.account).to.equal(Entrance.account) &&
+        expect(object.user).to.equal(Entrance.user) && 
+        expect(object.date).to.equal(Entrance.date) && 
+        expect(object.scheduling).to.equal(Entrance.scheduling);
+      } )
+    });
+
+    it("Should get a movement (Entrance)", () => {
+      const Entrance = {
+        value: 199,
+        account: "85742-9",
+        user: "Mateus",
+        date : "1999-05-05T03:00:00.000Z",
+        scheduling : ""
+      }
+      request.get('/Entrance').send(Entrance).end( (req, res) => {
+        const object = res.body;
+        expect(object.value).to.equal(Entrance.value) &&
+        expect(object.account).to.equal(Entrance.account) &&
+        expect(object.user).to.equal(Entrance.user) && 
+        expect(object.date).to.equal(Entrance.date) && 
+        expect(object.scheduling).to.equal(Entrance.scheduling);
+      });
+    });
+
+  });
+
+//  describe("Route GET /Entrance", ()=> {
+    
+//  });
+
+  describe("Route POST /Outflow", () => {
+
+    it("Should create a movement (Outflow)", ()=>{
+      const Outflow = {
+        value: 199,
+        account: "85742-9",
+        user: "Mateus",
+        date : "1999-05-05T03:00:00.000Z",
+        scheduling : ""
+      }
+      request.post('/Outflow').send(Outflow).end( (req, res) => {
+        const object = res.body;
+        expect(object.value).to.equal(Outflow.value) &&
+        expect(object.account).to.equal(Outflow.account) &&
+        expect(object.user).to.equal(Outflow.user) && 
+        expect(object.date).to.equal(Outflow.date) && 
+        expect(object.scheduling).to.equal(Outflow.scheduling);
+      } )
+    });
+
+  });
+
+  describe("Route GET /Outflow", ()=> {
+    it("Should get a movement (Outflow)", () => {
+      const Outflow = {
+        value: 199,
+        account: "85742-9",
+        user: "Mateus",
+        date : "1999-05-05T03:00:00.000Z",
+        scheduling : ""
+      }
+      request.get('/Outflow').send(Outflow).end( (req, res) => {
+        const object = res.body;
+        expect(object.value).to.equal(Outflow.value) &&
+        expect(object.account).to.equal(Outflow.account) &&
+        expect(object.user).to.equal(Outflow.user) && 
+        expect(object.date).to.equal(Outflow.date) && 
+        expect(object.scheduling).to.equal(Outflow.scheduling);
+      });
     });
   });
-});
 
-describe("Route POST /Outflow", () => {
-
-  it("Should create a movement (Outflow)", ()=>{
-    const Outflow = {
-      value: 199,
-      account: "85742-9",
-      user: "Mateus",
-      date : "05/05/1999",
-      scheduling : ""
-    }
-    request.post('/Outflow').set('Authorization', `JWT ${token}`).send(Outflow).end( (req, res) => {
-      const object = res.body;
-      expect(object.value).to.equal(Outflow.value) &&
-      expect(object.account).to.equal(Outflow.account) &&
-      expect(object.user).to.equal(Outflow.user) && 
-      expect(object.date).to.equal(Outflow.date) && 
-      expect(object.scheduling).to.equal(Outflow.scheduling);
-    } )
-  });
-
-});
-
-describe("Route GET /Outflow", ()=> {
-  it("Should get a movement (Outflow)", () => {
-    const Outflow = {
-      value: 199,
-      account: "85742-9",
-      user: "Mateus",
-      date : "05/05/1999",
-      scheduling : ""
-    }
-    request.get('/Outflow').set('Authorization', `JWT ${token}`).send(Outflow).end( (req, res) => {
-      const object = res.body;
-      expect(object.value).to.equal(Outflow.value) &&
-      expect(object.account).to.equal(Outflow.account) &&
-      expect(object.user).to.equal(Outflow.user) && 
-      expect(object.date).to.equal(Outflow.date) && 
-      expect(object.scheduling).to.equal(Outflow.scheduling);
-    });
-  });
 });

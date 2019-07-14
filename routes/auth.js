@@ -6,7 +6,7 @@ module.exports = (app) => {
   app.post('/auth', (req, res) => {
 
     if (req.body.user && req.body.password){
-
+      console.log("contem usuario e senha")
       users.findOne({
         where : { user: req.body.user }
       })
@@ -20,9 +20,12 @@ module.exports = (app) => {
           );
         } else res.sendStatus(401); 
       })
-      .catch( () => res.sendStatus(501))
+      .catch( () => {res.sendStatus(501)})
 
-    } else res.sendStatus(401); 
+    } else {
+      console.log("Erro no routes")
+      res.sendStatus(401); 
+    }
 
   });
 };
