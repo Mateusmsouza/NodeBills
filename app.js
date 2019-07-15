@@ -6,11 +6,11 @@ const homeHouter = require('./routes/home');
 const entranceRouter = require('./routes/entrance');
 const outflowRouter  = require('./routes/outflow');
 const userRouter  = require('./routes/user');
-//const authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth');
 const entranceModel = require('./models/ENTRANCE');
 const outflowModel = require('./models/OUTFLOW');
 const userModel = require('./models/USERS');
-//const authorization = require('./auth');
+const authorization = require('./auth');
 const sequelizeConf = require('./config/databaseconf');
 
 
@@ -21,26 +21,32 @@ app.use(expressejsLayout);
 app.use( bodyParser.json() );
 
 /* passportjs middleware  */ 
-// const auth = authorization(app);
-// app.use( auth.initialize() );
-// app.set("auth", auth);
+ const auth = authorization(app);
+ app.use( auth.initialize() );
+ app.set("auth", auth);
 
 /*database init and setting these database instances to app*/
 const sequelizeInstance = new Sequelize( sequelizeConf.config, {logging: console.log} );
 
-const tableEntrance =  entranceModel(sequelizeInstance, Sequelize);
-const tableOutflow =  outflowModel(sequelizeInstance, Sequelize);
-const tableUser = userModel(sequelizeInstance, Sequelize);
-app.set("datasourceEntrance", tableEntrance);
-app.set("datasourceOutflow", tableOutflow);
-app.set("datasourceUser", tableUser);
+const modelEntrance =  entranceModel(sequelizeInstance, Sequelize);
+const modelOutflow =  outflowModel(sequelizeInstance, Sequelize);
+const modelUser = userModel(sequelizeInstance, Sequelize);
+
+// associations
+modelUser.hasMany(modelOutflow, { foreignKey: { name: 'user', allowNull:false }});
+modelUser.hasMany(modelEntrance, { foreignKey: { name: 'user', allowNull:false }});
+
+
+app.set("datasourceEntrance", modelEntrance);
+app.set("datasourceOutflow", modelOutflow);
+app.set("datasourceUser", modelUser);
 
 /* Routes initialize */
 entranceRouter(app);
 outflowRouter(app);
 userRouter(app);
 homeHouter(app);
-//authRouter(app);
+authRouter(app);
 
 /* sync database */
 sequelizeInstance.sync()

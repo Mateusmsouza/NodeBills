@@ -1,31 +1,33 @@
 const passport = require('passport');
-const pass = require('passport-jwt');
+const jwtpassport = require('passport-jwt');
+const Strategy = jwtpassport.Strategy;
+
+let opts = {};
+opts.jwtFromRequest = jwtpassport.ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = '2019';
+
 
 module.exports = (App) => {
-  const users = App.get("datasourceUser");
-  const options = {
-    secretOrKey: "nodebills",
-    jwtFromRequest: pass.ExtractJwt.fromAuthHeaderAsBearerToken()
-  }
+  let userId
+  const str = new Strategy(opts, (jwt_payload, done) => {
 
-  const strategy = new pass.Strategy(options, (payload, done) => {
+      App.get("datasourceUser").findOne({where : { id: jwt_payload.id}})
+      .then(user => {
+        userId = jwt_payload.id;
+        done(null, user)
+      })
+      .catch(error => {
+ 
+        done(false, error)
+      });
 
-    users.findById(payload.id)
-    .then( user => {
-      if (user) {
-        return done (null, user);
-      }
-      return done(null, false);
-    })
-    .catch(error => {
-      done(error, null);
-    })
-  });
+  })
 
+  passport.use(str)
 
-  passport.use(strategy);
   return {
     initialize: () => passport.initialize(),
-    authenticate: () => passport.authenticate('jwt', { session: false } ),
-  };
-};
+    authenticate: () => passport.authenticate('jwt', { session: false} )
+    ,
+  }
+}

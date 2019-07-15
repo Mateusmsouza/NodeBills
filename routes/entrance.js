@@ -1,18 +1,23 @@
 const Entrance = require('../controllers/entrance');
 
 module.exports = (App) => {
+  let Auth = App.get("auth");
 
   App.route('/Entrance')
-      //.all(App.get("auth").authenticate())
-      .post((req, res )=>{
-        const entrance = new Entrance(App.get("datasourceEntrance"), req.body.value, req.body.account, req.body.user, req.body.date, req.body.scheduling);
+      .all( Auth.authenticate() )
+      .post((req, res ) =>{
+        console.log("req:")
+        console.log(req.user)
+        console.log("req body user: "+ req.user.id);
+        const entrance = new Entrance(App.get("datasourceEntrance"), req.body.value, req.body.account, req.user.id , req.body.date, req.body.scheduling);
 
         entrance.commitToDatabase()
         .then(entrance => {
             res.status(200).json(entrance).send();
           })
           .catch(error => {
-            res.status(404).send();
+            console.log(error)
+            res.status(500).send();
           })
       })
 

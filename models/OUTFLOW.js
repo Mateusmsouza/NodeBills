@@ -10,11 +10,6 @@ module.exports = (sequelize, Datatype) => {
       allowNull: false
       
     },
-    user: {
-      type: Datatype.STRING,
-      primaryKey: true,
-      allowNull: false
-    },
     date: {
       type: Datatype.DATE,
       primaryKey: true

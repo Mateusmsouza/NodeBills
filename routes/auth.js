@@ -11,11 +11,11 @@ module.exports = (app) => {
         where : { user: req.body.user }
       })
       .then( user => {
-
+        console.log("user localizado")
         if (user.password == req.body.password) { 
           res.json(
             {
-              token: jwt.encode( {id: user.id} , "nodebills"),
+              token: jwt.encode( {id: user.id} , "2019"),
             }
           );
         } else res.sendStatus(401); 
