@@ -4,12 +4,10 @@ const User = require('../../controllers/user');
 describe("Class: User", ()=> {
 
   it("Should create an instance of user", ()=>{
-    const date = new Date();
-    const user = new User("mateus", "Mateus Souza", "password", date ); 
+    const user = new User(null, "mateus", "Mateus Souza", "password"); 
     return expect(user.user).to.equal("mateus") &&
     expect(user.name).to.equal("Mateus Souza") &&
-    expect(user.password).to.equal("password") &&
-    expect(user.createdAt).to.equal(date);
+    expect(user.password).to.equal("password")
   })
 
 });

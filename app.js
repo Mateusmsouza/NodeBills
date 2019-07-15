@@ -3,12 +3,12 @@ const expressejsLayout = require('express-ejs-layouts');
 const bodyParser = require ('body-parser');
 const Sequelize = require('sequelize');
 const homeHouter = require('./routes/home');
-const entranceRouter = require('./routes/entrance');
-const outflowRouter  = require('./routes/outflow');
+const IncomeRouter = require('./routes/income');
+const expenseRouter  = require('./routes/expense');
 const userRouter  = require('./routes/user');
 const authRouter = require('./routes/auth');
-const entranceModel = require('./models/ENTRANCE');
-const outflowModel = require('./models/OUTFLOW');
+const incomeModel = require('./models/INCOMES');
+const expenseModel = require('./models/EXPENSES');
 const userModel = require('./models/USERS');
 const authorization = require('./auth');
 const sequelizeConf = require('./config/databaseconf');
@@ -28,22 +28,22 @@ app.use( bodyParser.json() );
 /*database init and setting these database instances to app*/
 const sequelizeInstance = new Sequelize( sequelizeConf.config, {logging: console.log} );
 
-const modelEntrance =  entranceModel(sequelizeInstance, Sequelize);
-const modelOutflow =  outflowModel(sequelizeInstance, Sequelize);
+const modelIncome =  incomeModel(sequelizeInstance, Sequelize);
+const modelExpense =  expenseModel(sequelizeInstance, Sequelize);
 const modelUser = userModel(sequelizeInstance, Sequelize);
 
 // associations
-modelUser.hasMany(modelOutflow, { foreignKey: { name: 'user', allowNull:false }});
-modelUser.hasMany(modelEntrance, { foreignKey: { name: 'user', allowNull:false }});
+modelUser.hasMany(modelIncome, { foreignKey: { name: 'user', allowNull:false }});
+modelUser.hasMany(modelExpense, { foreignKey: { name: 'user', allowNull:false }});
 
 
-app.set("datasourceEntrance", modelEntrance);
-app.set("datasourceOutflow", modelOutflow);
+app.set("datasourceIncome", modelIncome);
+app.set("datasourceExpense", modelExpense);
 app.set("datasourceUser", modelUser);
 
 /* Routes initialize */
-entranceRouter(app);
-outflowRouter(app);
+IncomeRouter(app);
+expenseRouter(app);
 userRouter(app);
 homeHouter(app);
 authRouter(app);

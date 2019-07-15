@@ -13,10 +13,6 @@ module.exports = (sequelize, Datatype) => {
     date: {
       type: Datatype.DATE,
       primaryKey: true
-    },
-    scheduling: {
-      type: Datatype.DATE, 
-      primaryKey: true
     }
   });
 

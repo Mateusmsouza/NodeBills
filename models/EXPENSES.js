@@ -8,14 +8,9 @@ module.exports = (sequelize, Datatype) => {
     account: {
       type: Datatype.STRING,
       allowNull: false
-      
-    },
+    }, 
     date: {
       type: Datatype.DATE,
-      primaryKey: true
-    },
-    scheduling: {
-      type: Datatype.DATE, 
       primaryKey: true
     }
   });

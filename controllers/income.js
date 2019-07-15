@@ -1,15 +1,14 @@
-class Outflow {
+class Income {
 
-  constructor(databaseAccess, value, account, user, date, scheduling){
+  constructor(databaseAccess , value, account, user, date){
     this.databaseAccess = databaseAccess;
     this.value = value;
     this.account = account;
     this.user = user;
     this.date = date;
-    this.scheduling = scheduling;
 
   }
-  
+
   commitToDatabase(){
     return this.databaseAccess.create(this);
   }
@@ -26,4 +25,4 @@ class Outflow {
   }
 }
 
-module.exports = Outflow;
+module.exports = Income;

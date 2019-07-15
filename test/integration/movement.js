@@ -13,12 +13,12 @@ describe("Routes moviments." , () => {
 
   before( done => {  
     const Users = app.get("datasourceUser");
-    const Entrance = app.get("datasourceEntrance");
-    const Outflow = app.get("datasourceOutflow")
+    const Income = app.get("datasourceIncome");
+    const Expense = app.get("datasourceExpense")
 
-    Outflow.destroy({where: {}, truncate: true})
+    Expense.destroy({where: {}, truncate: true})
       .then( () => {
-          Entrance.destroy({where: {}, truncate: true})
+        Income.destroy({where: {}, truncate: true})
             .then( () => { 
               Users.destroy({where: {}, truncate: true})
                 .then( () => {
@@ -43,85 +43,77 @@ describe("Routes moviments." , () => {
 
   });
 
-  describe("Route POST /Entrance", ()=>{
+  describe("Route POST /Income", ()=>{
 
-    it("Should create a movement (Entrance)", ()=>{
-      const Entrance = {
+    it("Should create a movement (Income)", ()=>{
+      const Income = {
         value: 199,
         account: "85742-9",
         date : "1999-05-05T03:00:00.000Z",
-        scheduling : ""
       }
-      request.post('/Entrance').set('Authorization','Bearer ' + token).send(Entrance).end( (req, res) => {
+      request.post('/Income').set('Authorization','Bearer ' + token).send(Income).end( (req, res) => {
         const object = res.body;
   
-        expect(object.value).to.equal(Entrance.value) &&
-        expect(object.account).to.equal(Entrance.account) &&
-        expect(object.user).to.equal(Entrance.user) && 
-        expect(object.date).to.equal(Entrance.date) && 
-        expect(object.scheduling).to.equal(Entrance.scheduling);
+        expect(object.value).to.equal(Income.value) &&
+        expect(object.account).to.equal(Income.account) &&
+        expect(object.user).to.equal(Income.user) && 
+        expect(object.date).to.equal(Income.date)
       } )
     });
 
-    it("Should get a movement (Entrance)", () => {
-      const Entrance = {
+    it("Should get a movement (Income)", () => {
+      const Income = {
         value: 199,
         account: "85742-9",
         user: userid,
-        date : "1999-05-05T03:00:00.000Z",
-        scheduling : ""
+        date : "1999-05-05T03:00:00.000Z"
       }
-      request.get('/Entrance').set('Authorization','Bearer ' + token).send(Entrance).end( (req, res) => {
+      request.get('/Income').set('Authorization','Bearer ' + token).send(Income).end( (req, res) => {
         const object = res.body;
-        expect(object.value).to.equal(Entrance.value) &&
-        expect(object.account).to.equal(Entrance.account) &&
-        expect(object.user).to.equal(Entrance.user) && 
-        expect(object.date).to.equal(Entrance.date) && 
-        expect(object.scheduling).to.equal(Entrance.scheduling);
+        expect(object.value).to.equal(Income.value) &&
+        expect(object.account).to.equal(Income.account) &&
+        expect(object.user).to.equal(Income.user) && 
+        expect(object.date).to.equal(Income.date);
       });
     });
 
   });
 
 
-  describe("Route POST /Outflow", () => {
+  describe("Route POST /Expense", () => {
 
-    it("Should create a movement (Outflow)", ()=>{
-      const Outflow = {
+    it("Should create a movement (Expense)", ()=>{
+      const Expense = {
         value: 199,
         account: "85742-9",
         user: userid,
-        date : "1999-05-05T03:00:00.000Z",
-        scheduling : ""
+        date : "1999-05-05T03:00:00.000Z"
       }
-      request.post('/Outflow').set('Authorization','Bearer ' + token).send(Outflow).end( (req, res) => {
+      request.post('/Expense').set('Authorization','Bearer ' + token).send(Expense).end( (req, res) => {
         const object = res.body;
-        expect(object.value).to.equal(Outflow.value) &&
-        expect(object.account).to.equal(Outflow.account) &&
-        expect(object.user).to.equal(Outflow.user) && 
-        expect(object.date).to.equal(Outflow.date) && 
-        expect(object.scheduling).to.equal(Outflow.scheduling);
+        expect(object.value).to.equal(Expense.value) &&
+        expect(object.account).to.equal(Expense.account) &&
+        expect(object.user).to.equal(Expense.user) && 
+        expect(object.date).to.equal(Expense.date);
       } )
     });
 
   });
 
-  describe("Route GET /Outflow", ()=> {
-    it("Should get a movement (Outflow)", () => {
-      const Outflow = {
+  describe("Route GET /Expense", ()=> {
+    it("Should get a movement (Expense)", () => {
+      const Expense = {
         value: 199,
         account: "85742-9",
         user: userid,
-        date : "1999-05-05T03:00:00.000Z",
-        scheduling : ""
+        date : "1999-05-05T03:00:00.000Z"
       }
-      request.get('/Outflow').set('Authorization','Bearer ' + token).send(Outflow).end( (req, res) => {
+      request.get('/Expense').set('Authorization','Bearer ' + token).send(Expense).end( (req, res) => {
         const object = res.body;
-        expect(object.value).to.equal(Outflow.value) &&
-        expect(object.account).to.equal(Outflow.account) &&
-        expect(object.user).to.equal(Outflow.user) && 
-        expect(object.date).to.equal(Outflow.date) && 
-        expect(object.scheduling).to.equal(Outflow.scheduling);
+        expect(object.value).to.equal(Expense.value) &&
+        expect(object.account).to.equal(Expense.account) &&
+        expect(object.user).to.equal(Expense.user) && 
+        expect(object.date).to.equal(Expense.date);
       });
     });
   });

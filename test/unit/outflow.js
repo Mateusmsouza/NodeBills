@@ -1,35 +1,18 @@
 const expect = require('chai').expect;
-const Outflow = require('../../controllers/outflow');
+const Expense = require('../../controllers/expense');
 
-describe("Class: Outflow", () => {
+describe("Class: Expense", () => {
 
-  it("Should create a new outflow instance", ()=> {
+  it("Should create a new Expense instance", ()=> {
 
-    const outflow = new Outflow(100, "Itau", "User", "today", "");
+    const expense = new Expense(null, 100, "Itau", "User", "today");
 
     return (
-      expect(outflow.Value).to.equal(100) &&
-      expect(outflow.Account).to.equal("Itau") &&
-      expect(outflow.User).to.equal("User") &&
-      expect(outflow.Date).to.equal("today") &&
-      expect(outflow.Scheduling).to.equal("") 
+      expect(expense.value).to.equal(100) &&
+      expect(expense.account).to.equal("Itau") &&
+      expect(expense.user).to.equal("User") &&
+      expect(expense.date).to.equal("today")
     );
   });
-
-  it('Shoud use all setters', () => {
-    const outflow = new Outflow(100, "Itau", "User", "today", "");
-    outflow.Value = 2500;
-    outflow.Account = "Nubank";
-    outflow.User = "AnotherUser";
-    outflow.Date = "yesterday";
-    outflow.Scheduling = "none";
-    return (
-      expect(outflow.Value).to.equal(2500) &&
-      expect(outflow.Account).to.equal("Nubank") &&
-      expect(outflow.User).to.equal("AnotherUser") &&
-      expect(outflow.Date).to.equal("yesterday") &&
-      expect(outflow.Scheduling).to.equal("none")
-      );
-  })
 
 });

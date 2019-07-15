@@ -1,35 +1,17 @@
 const expect = require('chai').expect;
-const Entrance = require('../../controllers/entrance');
+const Income = require('../../controllers/income');
 
-describe("Class: entrance", ()=> {
+describe("Class: Income", ()=> {
 
-  it('Should create a new entrance instance', ()=> {
+  it('Should create a new income instance', ()=> {
 
-    const entrance = new Entrance(1000, "Itau", "User", "today", "");
+    const income = new Income(null, 1000, "Itau", "User", "today");
 
     return (
-              expect(entrance.Value).to.equal(1000) &&
-              expect(entrance.Account).to.equal("Itau") &&
-              expect(entrance.User).to.equal("User") &&
-              expect(entrance.Date).to.equal("today") &&
-              expect(entrance.Scheduling).to.equal("") 
+              expect(income.value).to.equal(1000) &&
+              expect(income.account).to.equal("Itau") &&
+              expect(income.user).to.equal("User") &&
+              expect(income.date).to.equal("today")
             );
   });
-
-  it('Shoud use all setters', () => {
-    const entrance = new Entrance(1000, "Itau", "User", "today", "");
-    entrance.Value = 2500;
-    entrance.Account = "Nubank";
-    entrance.User = "AnotherUser";
-    entrance.Date = "yesterday";
-    entrance.Scheduling = "none";
-    return (
-      expect(entrance.Value).to.equal(2500) &&
-      expect(entrance.Account).to.equal("Nubank") &&
-      expect(entrance.User).to.equal("AnotherUser") &&
-      expect(entrance.Date).to.equal("yesterday") &&
-      expect(entrance.Scheduling).to.equal("none")
-      );
-  })
-
 });
