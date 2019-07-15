@@ -9,3 +9,6 @@ Tests frameworks used on this project:
  - Chai (https://www.chaijs.com/)
  - Mocha (https://mochajs.org/)
 
+----------------------------------------------------------
+
+![Alt text](./MERD/nodeBillsMER.jpg?raw=true "MER")
