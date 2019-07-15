@@ -11,4 +11,4 @@ Tests frameworks used on this project:
 
 ----------------------------------------------------------
 
-![Alt text](./MERD/nodeBillsMER.jpg?raw=true "MER")
+![Alt text](./MERD/nodeBillsMER.png?raw=true "MER")
