@@ -3,10 +3,10 @@ const Outflow = require('../controllers/outflow');
 module.exports = (App) => {
 
   App.route('/Outflow')
-    //.all(App.get("auth").authenticate())
+    .all(App.get("auth").authenticate())
     .post(
         (req, res) => {
-        const outflow = new Outflow(App.get("datasourceOutflow"), req.body.value, req.body.account, req.body.user, req.body.date, req.body.scheduling);
+        const outflow = new Outflow(App.get("datasourceOutflow"), req.body.value, req.body.account, req.user.id, req.body.date, req.body.scheduling);
         
         outflow.commitToDatabase()
           .then(outflow => {

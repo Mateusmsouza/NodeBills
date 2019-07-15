@@ -6,9 +6,6 @@ module.exports = (App) => {
   App.route('/Entrance')
       .all( Auth.authenticate() )
       .post((req, res ) =>{
-        console.log("req:")
-        console.log(req.user)
-        console.log("req body user: "+ req.user.id);
         const entrance = new Entrance(App.get("datasourceEntrance"), req.body.value, req.body.account, req.user.id , req.body.date, req.body.scheduling);
 
         entrance.commitToDatabase()

@@ -9,7 +9,8 @@ describe("Routes moviments." , () => {
 
   const request = supertest(app);
   let token;
-    
+  let userid;  
+
   before( done => {  
     const Users = app.get("datasourceUser");
     const Entrance = app.get("datasourceEntrance");
@@ -26,7 +27,9 @@ describe("Routes moviments." , () => {
                           name: 'Mateus Souza',
                           password: '12345',
                       })
-                      .then( () => {
+                      .then( ( user ) => {
+                        token = jwt.encode( {id: user.id} , "2019");
+                        userid = user.id;
                         done();
                       })
                       .catch( error => { console.log( error ) } )
@@ -46,13 +49,12 @@ describe("Routes moviments." , () => {
       const Entrance = {
         value: 199,
         account: "85742-9",
-        user: "Mateus",
         date : "1999-05-05T03:00:00.000Z",
         scheduling : ""
       }
-      request.post('/Entrance').send(Entrance).end( (req, res) => {
+      request.post('/Entrance').set('Authorization','Bearer ' + token).send(Entrance).end( (req, res) => {
         const object = res.body;
-        console.log(res.status)
+  
         expect(object.value).to.equal(Entrance.value) &&
         expect(object.account).to.equal(Entrance.account) &&
         expect(object.user).to.equal(Entrance.user) && 
@@ -65,11 +67,11 @@ describe("Routes moviments." , () => {
       const Entrance = {
         value: 199,
         account: "85742-9",
-        user: "Mateus",
+        user: userid,
         date : "1999-05-05T03:00:00.000Z",
         scheduling : ""
       }
-      request.get('/Entrance').send(Entrance).end( (req, res) => {
+      request.get('/Entrance').set('Authorization','Bearer ' + token).send(Entrance).end( (req, res) => {
         const object = res.body;
         expect(object.value).to.equal(Entrance.value) &&
         expect(object.account).to.equal(Entrance.account) &&
@@ -81,9 +83,6 @@ describe("Routes moviments." , () => {
 
   });
 
-//  describe("Route GET /Entrance", ()=> {
-    
-//  });
 
   describe("Route POST /Outflow", () => {
 
@@ -91,11 +90,11 @@ describe("Routes moviments." , () => {
       const Outflow = {
         value: 199,
         account: "85742-9",
-        user: "Mateus",
+        user: userid,
         date : "1999-05-05T03:00:00.000Z",
         scheduling : ""
       }
-      request.post('/Outflow').send(Outflow).end( (req, res) => {
+      request.post('/Outflow').set('Authorization','Bearer ' + token).send(Outflow).end( (req, res) => {
         const object = res.body;
         expect(object.value).to.equal(Outflow.value) &&
         expect(object.account).to.equal(Outflow.account) &&
@@ -112,11 +111,11 @@ describe("Routes moviments." , () => {
       const Outflow = {
         value: 199,
         account: "85742-9",
-        user: "Mateus",
+        user: userid,
         date : "1999-05-05T03:00:00.000Z",
         scheduling : ""
       }
-      request.get('/Outflow').send(Outflow).end( (req, res) => {
+      request.get('/Outflow').set('Authorization','Bearer ' + token).send(Outflow).end( (req, res) => {
         const object = res.body;
         expect(object.value).to.equal(Outflow.value) &&
         expect(object.account).to.equal(Outflow.account) &&
