@@ -51,22 +51,21 @@ describe("Routes moviments integration test" , () => {
         name: "Itau",
         description : "My test"
       }
-      request.post("/Account")
+      return request.post("/Account")
               .set('Authorization','Bearer ' + token)
               .send(account)
-              .end((err, res) =>{
-              if (err) return done(err);
-                
-              const object = res.body;
-              expect(object.total).to.equal(account.total);
-              expect(object.name).to.equal(account.name);
-              expect(object.description).to.equal(account.description);
-              done(res)
+              .expect(200)
+              .then(response => {
+                expect(response.body.total).to.equal(account.total);
+                expect(response.body.name).to.equal(account.name);
+                expect(response.body.description).to.equal(account.description);
+              })
+              
             });
 
     });
-  })
 
+  
   describe("Expense switch test", ()=>{
     it("[ POST /Expense ] Should create a Expense", () => {
 
@@ -77,20 +76,62 @@ describe("Routes moviments integration test" , () => {
         date: "1999-05-05T03:00:00.000Z"
       }
       
-      request.post("/Expense")
+      return request.post("/Expense")
               .set('Authorization','Bearer ' + token)
               .send(expense)
-              .end((err, res) => {
-                if (err) return done(err);
-                console.log(res);
+              .then( res => {
                 const object1 = res.body;
-                expect(object1.value).to.equal("expense.value");
-                expect(object1.account).to.equal(expense.account);
+                expect(object1.value).to.equal(expense.value);
+                expect(object1.account).to.be.a('number');
                 expect(object1.user).to.equal(expense.user);
                 expect(object1.date).to.equal(expense.date);
-                done(req)
+              
               })
-    })
-  })
+    });
 
+    it("[ GET /Expense ] Should get all expense in an array", ()=>{
+  
+      return request.get("/Expense")
+                    .set('Authorization','Bearer ' + token)
+                    .send()
+                    .then( response => {
+                      expect(response.body).to.be.an('array');
+                    });
+      });
+    })
+
+
+    describe("Income switch test", ()=>{
+      it("[ POST /Income ] Should create a Income", () => {
+  
+        
+        const income = {
+          value: 199,
+          account: "Itau",
+          date: "1999-05-05T03:00:00.000Z"
+        }
+        
+        return request.post("/Income")
+                .set('Authorization','Bearer ' + token)
+                .send(income)
+                .then( res => {
+                  const object1 = res.body;
+                  expect(object1.value).to.equal(income.value);
+                  expect(object1.account).to.be.a('number');
+                  expect(object1.user).to.equal(income.user);
+                  expect(object1.date).to.equal(income.date);
+                
+                })
+      });
+  
+      it("[ GET /Income ] Should get all Income in an array", ()=>{
+    
+        return request.get("/Income")
+                      .set('Authorization','Bearer ' + token)
+                      .send()
+                      .then( response => {
+                        expect(response.body).to.be.an('array');
+                      });
+        });
+      })
 });

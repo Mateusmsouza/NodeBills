@@ -31,19 +31,20 @@ module.exports = (App) => {
           
           }
         )
-      /*
+      
     .get(
         (req, res) => {
           const expense = new Expense(App.get("datasourceExpense"));
-      
-          expense.findAllParam(req.body.value, req.body.user.id)
-            .then(outflow => {
-              res.status(200).json(outflow).send();
+          
+          expense.findAllParam()
+            .then(outflows => {
+              res.status(200).json(outflows).send();
             })
             .catch((error)=>{
+              console.log(error)
               res.status(404).send();
             })
           
         }
-      )*/
+      )
 }

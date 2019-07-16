@@ -11,11 +11,10 @@ class Expense {
     return this.databaseAccess.create(this);
   }
 
-  findAllParam(value, userid){
+  findAllParam(){
     return this.databaseAccess.findAll( {
       where: {
-        value: value,
-        userid: userid
+        
         } 
       }
       )

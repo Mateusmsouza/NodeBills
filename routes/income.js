@@ -6,21 +6,31 @@ module.exports = (App) => {
   App.route('/Income')
       .all( Auth.authenticate() )
       .post((req, res ) =>{
-        const income = new Income(App.get("datasourceIncome"), req.body.value, req.body.account, req.user.id , req.body.date, req.body.scheduling);
 
-        income.commitToDatabase()
-        .then(income => {
-            res.status(200).json(income).send();
+        App.get("datasourceAccount").findOne(
+          {where: {userid: req.user.id, name:req.body.account}}
+          )
+          .then( account => {
+            const income = new Income(App.get("datasourceIncome"), req.body.value, account.accountid, req.body.date);
+
+            income.commitToDatabase()
+            .then(income => {
+                res.status(200).json(income).send();
+              })
+              .catch(error => {
+                console.log(error)
+                res.status(500).send();
+              })
           })
-          .catch(error => {
-            console.log(error)
-            res.status(500).send();
+          .catch(() =>{
+            res.status(400).json({message: "Invalid user account"}).send()
           })
+        
       })
 
       .get( (req, res) => {
         const controller = new Income(App.get("datasourceIncome"));
-        controller.findAllParam(req.body.value, req.body.account, req.body.user)
+        controller.findAllParam()
           .then(income => {
             res.status(200).json(income).send();
           })

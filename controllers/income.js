@@ -1,10 +1,9 @@
 class Income {
 
-  constructor(databaseAccess , value, account, user, date){
+  constructor(databaseAccess , value, account, date){
     this.databaseAccess = databaseAccess;
     this.value = value;
     this.account = account;
-    this.user = user;
     this.date = date;
 
   }
@@ -13,13 +12,9 @@ class Income {
     return this.databaseAccess.create(this);
   }
 
-  findAllParam(value, account, user){
+  findAllParam(){
     return this.databaseAccess.findAll( {
-      where: {
-        value: value,
-        account: account,
-        user: user
-        } 
+      where: {} 
       }
       )
   }
