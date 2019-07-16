@@ -1,13 +1,18 @@
 module.exports = (sequelize, Datatype) => {
-  return sequelize.define('ACCOUNTS', {
+  return sequelize.define('ACCOUNT', {
     
-    userId : {
+    userid : {
       type: Datatype.INTEGER,
+      allowNull: false
+    },
+    accountid : {
+      type: Datatype.INTEGER,
+      autoIncrement: true,
       primaryKey: true
     },
     name: {
       type: Datatype.STRING,
-      primaryKey: true
+      allowNull: false
     },
     total: {
       type: Datatype.DOUBLE,

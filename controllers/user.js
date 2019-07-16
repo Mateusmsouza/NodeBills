@@ -3,8 +3,7 @@ class User {
     this.databaseAccess = databaseAccess;
     this.user = user,
     this.name = name,
-    this.password = password
-    this.createdAt = new Date()
+    this.password = password;
   }
 
   commitToDatabase(){

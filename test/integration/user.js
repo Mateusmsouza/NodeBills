@@ -13,12 +13,14 @@ describe("Route POST /user", () => {
       password: "umasenha"
     };
 
-    request.post('/user').send(user).end( (req, res)=>{
-      return expect(res.body.user).to.equal(user.user) &&
-      expect(res.body.name).to.equal(user.name) &&
-      expect(res.body.password).to.equal(user.password)
-    });
-    
+    return request.post('/user')
+          .send(user)
+          .expect(200)
+          .then( response => {
+            expect(response.body.user).to.equal(user.user)
+            expect(response.body.name).to.equal(user.name)
+            expect(response.body.password).to.equal(user.password)
+          })
   });
 
   it("Should get a user", () => {
@@ -28,10 +30,16 @@ describe("Route POST /user", () => {
       password: "umasenha"
     };
 
-    request.get('/user').send(user).end( (req, res)=>{
-      return expect(res.body.user).to.equal(user.user) &&
-      expect(res.body.name).to.equal(user.name) &&
-      expect(res.body.password).to.equal(user.password)
-    });
+    return request.get('/user')
+            .send(user)
+            .expect(200)
+            .then( res => {
+              const response = res.body;
+              expect(response[0].user).to.equal(user.user)
+              expect(response[0].name).to.equal(user.name)
+              expect(response[0].password).to.equal(user.password)
+            } )
+      
+    
   })
 });

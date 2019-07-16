@@ -8,16 +8,17 @@ opts.secretOrKey = '2019';
 
 
 module.exports = (App) => {
-  let userId
+  
   const str = new Strategy(opts, (jwt_payload, done) => {
 
       App.get("datasourceUser").findOne({where : { id: jwt_payload.id}})
       .then(user => {
-        userId = jwt_payload.id;
+        
+        console.log("User autenticado!");
         done(null, user)
       })
       .catch(error => {
- 
+        console.log("User Failed Auth!");
         done(false, error)
       });
 

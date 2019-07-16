@@ -1,14 +1,15 @@
 module.exports = (sequelize, Datatype) => {
   
-  return sequelize.define('OUTFLOWS', {
+  return sequelize.define('EXPENSE', {
+    
+    account: {
+      type: Datatype.INTEGER,
+      primaryKey: true
+    }, 
     value: {
       type: Datatype.DOUBLE,
-      allowNull: false
+      primaryKey: true
     },
-    account: {
-      type: Datatype.STRING,
-      allowNull: false
-    }, 
     date: {
       type: Datatype.DATE,
       primaryKey: true

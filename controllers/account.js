@@ -1,10 +1,14 @@
 class Account {
-  constructor(databaseAccess, userId, name, total, description){
+  constructor(databaseAccess, userid, name, total, description){
     this.databaseAccess = databaseAccess;
-    this.userId = userId,
+    this.userid = userid,
     this.name = name,
     this.total = total,
     this.description = description
+  }
+
+  commitToDatabase(){
+    return this.databaseAccess.create(this);
   }
 }
 module.exports = Account;

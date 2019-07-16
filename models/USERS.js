@@ -1,6 +1,6 @@
 module.exports = (sequelize, Datatype) => {
   
-  return sequelize.define('USERS', {
+  return sequelize.define('USER', {
     id: {
       type: Datatype.INTEGER,
       primaryKey: true,
@@ -17,9 +17,6 @@ module.exports = (sequelize, Datatype) => {
     password: {
       type: Datatype.STRING,
       allowNull: false
-    },
-    createdAt: {
-      type: Datatype.DATE,
     }
   });
 
