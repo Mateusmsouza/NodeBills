@@ -13,12 +13,9 @@ module.exports = (App) => {
 
       App.get("datasourceUser").findOne({where : { id: jwt_payload.id}})
       .then(user => {
-        
-        console.log("User autenticado!");
         done(null, user)
       })
       .catch(error => {
-        console.log("User Failed Auth!");
         done(false, error)
       });
 

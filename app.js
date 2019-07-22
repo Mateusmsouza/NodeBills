@@ -24,8 +24,10 @@ const accountModel = require('./models/ACCOUNTS');
 const app = express();
 app.set( "port", process.env.port || 3001 );
 app.set('view engine', 'ejs');
-app.use(expressejsLayout);
 app.use( bodyParser.json() );
+
+/*Static files*/
+app.use(express.static(__dirname + '/public'));
 
 /* passportjs middleware  */ 
  const auth = authorization(app);
@@ -63,6 +65,8 @@ userRouter(app);
 accountRouter(app);
 homeHouter(app);
 authRouter(app);
+
+
 
 /* sync database */
 sequelizeInstance.sync()

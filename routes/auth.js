@@ -13,6 +13,7 @@ module.exports = (app) => {
       .then( user => {
         console.log("user localizado")
         if (user.password == req.body.password) { 
+          console.log("User passou na verificação");
           res.json(
             {
               token: jwt.encode( {id: user.id} , "2019"),
